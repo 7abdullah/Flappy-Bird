@@ -1,0 +1,48 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://yellowbird-midflap.png" type="Texture" id=1]
+[ext_resource path="res://KinematicBody2D.gd" type="Script" id=2]
+[ext_resource path="res://yellowbird-upflap.png" type="Texture" id=3]
+[ext_resource path="res://yellowbird-downflap.png" type="Texture" id=4]
+[ext_resource path="res://audio/wing.wav" type="AudioStream" id=5]
+[ext_resource path="res://audio/hit.wav" type="AudioStream" id=6]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 22.0
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 1 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "move",
+"speed": 10.0
+} ]
+
+[sub_resource type="Animation" id=3]
+resource_name = "normal_motion"
+loop = true
+
+[node name="Player" type="RigidBody2D"]
+position = Vector2( 42, 306 )
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 6, 1 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -16, -19 )
+scale = Vector2( 1.29412, 1.66667 )
+frames = SubResource( 2 )
+animation = "move"
+centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "normal_motion"
+anims/normal_motion = SubResource( 3 )
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Wing" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
